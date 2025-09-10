@@ -4,15 +4,19 @@
  */
 package simple.school.app;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;;
+
 /**
  *
  * @author USER
  */
 public class loginFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form loginFrame
-     */
+Connection con =  null;
+PreparedStatement pst = null;
     public loginFrame() {
         initComponents();
     }
@@ -142,7 +146,7 @@ public class loginFrame extends javax.swing.JFrame {
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
         // TODO add your handling code here:
 
-        RegisterationModule R = new RegisterationModule();
+        registerFrame R = new registerFrame ();
         this.setLocationRelativeTo(null);
         this.setVisible(false);
         R.setVisible(true);
@@ -157,8 +161,9 @@ public class loginFrame extends javax.swing.JFrame {
         String username = usernameField.getText();
         String password = passwordField.getText();
         if (username.isEmpty() || password.isEmpty())
-        { JOptionPane.showMessageDialog( null,"Password and Username should not be empty do not match");
-        }
+        { 
+            JOptionPane.showMessageDialog( null,"Password and Username should not be empty do not match");
+        } 
         else
 
         try{
@@ -166,15 +171,15 @@ public class loginFrame extends javax.swing.JFrame {
             pst = con.prepareCall(sql);
             pst.setString(1, username);// username
             pst.setString(2, password );// password
-
-            rs = pst.executeQuery();
+            ResultSet rs = pst.executeQuery();
             if (rs.next()) //it true do this
 
             {
 
-                new funApps(username).setVisible(true);
-                this.setVisible(false);
-
+               funApps lf = new funApps();
+            this.setLocationRelativeTo(null);
+            this.setVisible(false);
+            lf.setVisible(true);
             } else//if false, do this
             {
 

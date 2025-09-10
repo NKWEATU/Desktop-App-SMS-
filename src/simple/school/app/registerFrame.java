@@ -4,6 +4,24 @@
  */
 package simple.school.app;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author USER
@@ -13,6 +31,9 @@ public class registerFrame extends javax.swing.JFrame {
     /**
      * Creates new form registerFrame
      */
+    Connection con =  null;
+PreparedStatement pst = null;
+ String path2 = null;
     public registerFrame() {
         initComponents();
     }
@@ -100,7 +121,7 @@ public class registerFrame extends javax.swing.JFrame {
 
         birthyear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Year", "2022", "2021", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970", "1969", "1968", "1967", "1966", "1965", "1964", "1963", "1962", "1961", "1960" }));
 
-        birthmonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Month", "January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
+        birthmonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
 
         birthday.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Day", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31." }));
 
@@ -280,7 +301,7 @@ public class registerFrame extends javax.swing.JFrame {
             Jpassport.setIcon(icon);
             path2 = path;
         } catch (IOException ex) {
-            Logger.getLogger(RegisterationModule.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(registerFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_passportActionPerformed
@@ -339,7 +360,7 @@ public class registerFrame extends javax.swing.JFrame {
         }
         try{
             String query = "INSERT INTO `user_registeration_table`(`firstname`, `lastname`, `othername`, `contactaddress`, `emailaddress`,`username`, `gender`, `phonenumber`, `password`, `confirmpassword`, `yearofbirth`, `monthofbirth`, `dayofbirth`, `passport`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
-            con = DriverManager.getConnection("jdbc:mysql://localhost/user_registeration_database","root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/user_registeration_database","root","123456");
             pst = con.prepareStatement(query);
             pst.setString(1, firstname.getText());
             pst.setString(2, lastname.getText());
@@ -373,7 +394,7 @@ public class registerFrame extends javax.swing.JFrame {
 
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "you have successfully registered, your username and password should remain confidential.");
-            LoginFrame lf = new LoginFrame();
+            loginFrame lf = new loginFrame();
             this.setLocationRelativeTo(null);
             this.setVisible(false);
             lf.setVisible(true);

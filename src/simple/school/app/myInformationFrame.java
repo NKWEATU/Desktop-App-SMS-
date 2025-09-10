@@ -4,15 +4,26 @@
  */
 package simple.school.app;
 
-/**
- *
- * @author USER
- */
+
+
+import java.sql.SQLException;
+import java.awt.HeadlessException;
+import java.awt.Image;
+import javax.swing.JOptionPane;
+import java.sql.Statement;
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+
+
 public class myInformationFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form myInformationFrame
-     */
+      Connection con =  null;
+PreparedStatement pst = null;
     public myInformationFrame() {
         initComponents();
     }
@@ -255,12 +266,13 @@ public class myInformationFrame extends javax.swing.JFrame {
                 //to get connection
                 
          //use this line of code for mysql in xamp to get connection "jdbc:mysql://127.0.0.1:3306/user_registeration_database","root",""
-        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_registeration_database","root","Kenny4640");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/user_registeration_database","root","123456");
         
                 //prepared statement
-                Statement s = con.prepareStatement(sql);
-                ResultSet rs = s.executeQuery(sql);
+                Statement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery(sql);
 
+                
                 if (rs.next()){
                     String id = rs.getString(1);
                     String firstname = rs.getString(2);
