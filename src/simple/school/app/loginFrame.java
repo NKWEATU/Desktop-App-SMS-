@@ -19,6 +19,7 @@ Connection con =  null;
 PreparedStatement pst = null;
     public loginFrame() {
         initComponents();
+          con = db.mycon(); 
     }
 
     /**
@@ -158,38 +159,37 @@ PreparedStatement pst = null;
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
 
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        if (username.isEmpty() || password.isEmpty())
-        { 
-            JOptionPane.showMessageDialog( null,"Password and Username should not be empty do not match");
-        } 
-        else
+       String username = usernameField.getText();
+String password = new String(passwordField.getPassword());
 
-        try{
-            String sql = "SELECT * FROM user_registeration_table WHERE username = ? AND password = ?";
-            pst = con.prepareCall(sql);
-            pst.setString(1, username);// username
-            pst.setString(2, password );// password
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) //it true do this
+if (username.isEmpty() || password.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Username and Password must not be empty");
+    return;
+}
 
-            {
+try {
+    String sql = "SELECT * FROM user_registeration_table WHERE username = ? AND password = ?";
+    pst = con.prepareStatement(sql);   // ✅ FIXED
+    pst.setString(1, username);
+    pst.setString(2, password);
 
-               funApps lf = new funApps();
-            this.setLocationRelativeTo(null);
-            this.setVisible(false);
-            lf.setVisible(true);
-            } else//if false, do this
-            {
+    ResultSet rs = pst.executeQuery();
 
-                JOptionPane.showMessageDialog(null, "Incorrect Login Details.");
-            }
+    if (rs.next()) {
+        JOptionPane.showMessageDialog(null, "Login successful");
 
-        }catch(Exception e) {
+        myInformationFrame lf = new myInformationFrame ();
+        this.setVisible(false);
+        lf.setVisible(true);
+        lf.setLocationRelativeTo(null);
+    } else {
+        JOptionPane.showMessageDialog(null, "Incorrect Login Details");
+    }
 
-            System.out.println(e);
-        }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(null, e.getMessage());
+}
+
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**

@@ -17,6 +17,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -355,9 +356,10 @@ PreparedStatement pst = null;
         { 
          JOptionPane.showMessageDialog( null,"upload passport"); 
         }
-        else if (password.getPassword() != password2.getPassword())
-        { JOptionPane.showMessageDialog( null,"password do not match");
-        }
+      
+        else if (!Arrays.equals(password.getPassword(), password2.getPassword())) {
+       JOptionPane.showMessageDialog(null, "Passwords do not match");
+      } else
         try{
             String query = "INSERT INTO `user_registeration_table`(`firstname`, `lastname`, `othername`, `contactaddress`, `emailaddress`,`username`, `gender`, `phonenumber`, `password`, `confirmpassword`, `yearofbirth`, `monthofbirth`, `dayofbirth`, `passport`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
             con = DriverManager.getConnection("jdbc:mysql://localhost/user_registeration_database","root","123456");
